@@ -1,0 +1,37 @@
+#!/bin/bash
+set -euo pipefail
+
+show_help () {
+    echo
+    echo "Run Project Euler solutions"
+    echo "==========================="
+    echo
+    echo "To run a problem: ./$(basename $0) 123"
+    echo
+}
+
+if [[ $# -ne 1 ]]; then
+    show_help
+    exit 1
+fi
+
+DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+SRC=src
+BIN=bin
+FILES=files
+NUM=$1
+
+if [[ -a $SRC/p$NUM.hs ]]; then
+
+    make $BIN/p$NUM
+    echo "Running solution #${NUM}..."
+    $BIN/p$NUM
+
+else
+
+    >&2 echo "Error: No solution found for '${NUM}'."
+    show_help
+    exit 1
+
+fi
