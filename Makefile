@@ -1,6 +1,6 @@
-FLAGS = -no-keep-hi-files -no-keep-o-files
-SRC = ./src
-BIN = ./bin
+SRC = src
+BIN = bin
+FLAGS = -Wall -O2 -i$(SRC) -no-keep-hi-files -no-keep-o-files
 # automatically recognize binaries corresponding to `.hs` source files
 TARGETS = $(patsubst $(SRC)/%.hs,$(BIN)/%,$(wildcard $(SRC)/p*.hs))
 
