@@ -1,7 +1,7 @@
 import Mathfuncs
 
-num :: Int
-num = 600851475143
+result :: Int
+result = last (primeFactorize 600851475143)
 
 main :: IO ()
-main = print (last (primeFactorize num))
+main = print result
