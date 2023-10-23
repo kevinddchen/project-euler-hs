@@ -1,20 +1,28 @@
 module Mathfuncs
-  ( smallestPrimeFactor,
-    primeFactorize,
+  ( primeFactorize,
   )
 where
 
--- | Returns the smallest prime factor of a number.
-smallestPrimeFactor :: (Integral a) => a -> a
-smallestPrimeFactor n
-  | n <= 1 = error "n must be greater than 1"
-  | otherwise =
-      let nums = takeWhile (\x -> (x * x) <= n) (2 : [3, 5 ..]) ++ [n]
-       in head (filter (\x -> n `mod` x == 0) nums)
+-- | Returns (k, m) where k is the number of times p divides n and m = n / p^k.
+divOut :: (Integral a) => a -> a -> (a, a)
+divOut p n
+  | p <= 1 = error "p must be greater than 1"
+  | n `mod` p /= 0 = (0, n)
+  | otherwise = let (k, newN) = divOut p (n `div` p) in (k + 1, newN)
 
--- | Returns the prime factors of a number, e.g. 12 -> [2,2,3]
-primeFactorize :: (Integral a) => a -> [a]
-primeFactorize n
-  | n < 1 = error "n must be greater than 0"
-  | n == 1 = []
-  | otherwise = let k = smallestPrimeFactor n in k : primeFactorize (n `div` k)
+primeFactorizeHelper :: (Integral a) => a -> a -> [(a, a)]
+primeFactorizeHelper p n
+  | pTooBig && n /= 1 = [(n, 1)]
+  | pTooBig = []
+  | k > 0 = (p, k) : nextFacts
+  | otherwise = nextFacts
+  where
+    pTooBig = p * p > n
+    (k, nextN) = divOut p n
+    nextFacts = primeFactorizeHelper nextP nextN
+    nextP = if p `mod` 2 == 1 then p + 2 else p + 1
+
+-- | Returns the prime factorization of an integer as a list of (prime,
+-- exponent) pairs. For example, primeFactorize 12 == [(2,2),(3,1)].
+primeFactorize :: (Integral a) => a -> [(a, a)]
+primeFactorize = primeFactorizeHelper 2
