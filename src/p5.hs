@@ -1,7 +1,7 @@
 import Data.Map qualified as Map
 import Mathfuncs
 
--- | Prime factorization of the number in question.
+-- | This is the prime factorization of the answer.
 factorization :: Map.Map Int Int
 factorization = Map.fromListWith max $ concatMap primeFactorize [1 .. 20]
 
