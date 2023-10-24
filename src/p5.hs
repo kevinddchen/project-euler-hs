@@ -1,5 +1,5 @@
 import Data.Map qualified as Map
-import Mathfuncs
+import Mathfuncs (primeFactorize)
 
 -- | This is the prime factorization of the answer.
 factorization :: Map.Map Int Int

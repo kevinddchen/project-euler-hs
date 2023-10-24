@@ -1,4 +1,4 @@
-import Mathfuncs
+import Mathfuncs (primeFactorize)
 
 result :: Int
 result = fst . last . primeFactorize $ 600851475143
